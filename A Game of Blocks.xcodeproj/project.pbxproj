@@ -86,13 +86,29 @@
 			children = (
 				24728DE8290C984C0057BFBA /* README.md */,
 				24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */,
-				24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */,
-				240D92C62909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift */,
 				24728DE5290C91470057BFBA /* Common */,
 				240D92C22909B7A3000F8A1E /* Models */,
+				24E654E3290E6D7400985687 /* Modules */,
 				24728DEA290C9CDC0057BFBA /* Style Guide */,
 			);
 			path = "A Game of Blocks";
+			sourceTree = "<group>";
+		};
+		24E654E3290E6D7400985687 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				24E654E4290E6D7C00985687 /* A Game Of Blocks */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		24E654E4290E6D7C00985687 /* A Game Of Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */,
+				240D92C62909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift */,
+			);
+			path = "A Game Of Blocks";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

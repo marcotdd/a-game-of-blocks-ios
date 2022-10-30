@@ -12,10 +12,7 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
     var selectedBlockIndex: Int?
         
     init() {
-        for index in 0..<boardSize {
-            let isSideBlock = index % columns == 0 || (index + 1) % columns == 0
-            board.append(Block(isSide: isSideBlock))
-        }
+        setup()
     }
     
     func onBlockSelected(_ index: Int) {
@@ -23,6 +20,20 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
         board[index].state = .filled
         selectedBlockIndex = index
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: moveBlock)
+    }
+    
+    func restart() {
+        timer?.invalidate()
+        state = .idle
+        setup()
+    }
+    
+    private func setup() {
+        board = []
+        for index in 0..<boardSize {
+            let isSideBlock = index % columns == 0 || (index + 1) % columns == 0
+            board.append(Block(isSide: isSideBlock))
+        }
     }
     
     private func moveBlock(timer: Timer) {
