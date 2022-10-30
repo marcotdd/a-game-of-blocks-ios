@@ -21,7 +21,8 @@ struct AGameOfBlocksBoardView: View {
                                     .frame(width: blockSize, height: blockSize)
                                     .border(Color.lightGray, width: 1)
                                     .foregroundColor(block.color)
-                                    .overlay(Text("\(index)"))
+                                    .overlay(Text("\(block.score)"))
+//                                    .overlay(Text("\(index)"))
                                     .onTapGesture {
                                         if !viewModel.state.isLoading {
                                             viewModel.onBlockSelected(index)

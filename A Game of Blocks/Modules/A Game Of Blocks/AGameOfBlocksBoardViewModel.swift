@@ -20,12 +20,9 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
     }
     
     func onBlockSelected(_ index: Int) {
-        guard board.filter({ !$0.isEmpty }).count < numberOfMoves else {
-            state = .finished
-            return
-        }
+        guard !state.isFinished else { return }
         guard board[index].isEmpty else { return }
-        board[index].state = .filled
+        board[index].state = .onMoving
         selectedBlockIndex = index
         timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: moveBlock)
     }
@@ -39,29 +36,33 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
     private func setup() {
         board = []
         for index in 0..<boardSize {
-            let isSideBlock = index % columns == 0 || (index + 1) % columns == 0
-            board.append(Block(isSide: isSideBlock))
+            let isATopBlock = (0..<columns).contains(index)
+            let isASideBlock = index % columns == 0 || (index + 1) % columns == 0
+            let isABottomBlock = ((boardSize - columns)..<boardSize).contains(index)
+            board.append(Block(isTop: isATopBlock, isSide: isASideBlock, isBottom: isABottomBlock))
         }
     }
     
     private func moveBlock(timer: Timer) {
         guard let index = selectedBlockIndex else { return }
-        guard !state.isFinished else { return }
         
         state = .loading
         
         let nextIndex = index + columns
         if index < boardSize - columns && board[nextIndex].isEmpty && !isInBetween(selectedBlockIndex: index) {
             board[index].state = .empty
-            board[nextIndex].state = .filled
+            board[nextIndex].state = .onMoving
             selectedBlockIndex = nextIndex
         } else {
             timer.invalidate()
-            
-            if board.filter({ !$0.isEmpty }).count < numberOfMoves {
+            board[index].state = .filled
+            assignScore(for: index)
+
+            if board.filter({ $0.isFilled }).count < numberOfMoves {
                 state = .idle
             } else {
                 state = .finished
+                score = board.map({ $0.score }).reduce(0, +)
             }
         }
     }
@@ -74,5 +75,26 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
         }
             
         return !board[selectedBlockIndex-1].isEmpty && !board[selectedBlockIndex+1].isEmpty
+    }
+    
+    private func assignScore(for index: Int) {
+        if board[index].isBottom {
+            board[index].score = 5
+        } else if board[index + columns].isEmpty {
+            board[index].score = 5
+        } else {
+            board[index].score = 5 + board[index + columns].score
+        }
+        assignScoreOnBlankBlocksBelow(index: index)
+    }
+    
+    private func assignScoreOnBlankBlocksBelow(index: Int) {
+        guard !board[index].isBottom else { return }
+        let nextIndex = index + columns
+        guard board[nextIndex].isEmpty else { return }
+        
+        board[nextIndex].score = 10
+        board[nextIndex].state = .underTheBridge
+        assignScoreOnBlankBlocksBelow(index: nextIndex)
     }
 }
