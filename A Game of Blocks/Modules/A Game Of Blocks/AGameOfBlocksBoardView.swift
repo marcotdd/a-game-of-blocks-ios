@@ -30,6 +30,11 @@ struct AGameOfBlocksBoardView: View {
                             }
                         }
                         
+                        if viewModel.state.isFinished {
+                            Text("Score: \(viewModel.score)")
+                                .font(.title2)
+                        }
+                        
                         Spacer()
                         
                         Button {

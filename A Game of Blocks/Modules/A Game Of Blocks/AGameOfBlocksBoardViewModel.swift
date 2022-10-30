@@ -8,14 +8,22 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
     let boardSize: Int = 25
     let columns: Int = 5
 
-    var timer: Timer?
-    var selectedBlockIndex: Int?
-        
+    var score: Int = 0
+    
+    private let numberOfMoves: Int = 10
+
+    private var timer: Timer?
+    private var selectedBlockIndex: Int?
+    
     init() {
         setup()
     }
     
     func onBlockSelected(_ index: Int) {
+        guard board.filter({ !$0.isEmpty }).count < numberOfMoves else {
+            state = .finished
+            return
+        }
         guard board[index].isEmpty else { return }
         board[index].state = .filled
         selectedBlockIndex = index
@@ -38,6 +46,7 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
     
     private func moveBlock(timer: Timer) {
         guard let index = selectedBlockIndex else { return }
+        guard !state.isFinished else { return }
         
         state = .loading
         
@@ -48,7 +57,12 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
             selectedBlockIndex = nextIndex
         } else {
             timer.invalidate()
-            state = .idle
+            
+            if board.filter({ !$0.isEmpty }).count < numberOfMoves {
+                state = .idle
+            } else {
+                state = .finished
+            }
         }
     }
     
@@ -57,8 +71,8 @@ class AGameOfBlocksBoardViewModel: ObservableObject {
         
         if block.isSide {
             return false
-        } else {
-            return !board[selectedBlockIndex-1].isEmpty && !board[selectedBlockIndex+1].isEmpty
         }
+            
+        return !board[selectedBlockIndex-1].isEmpty && !board[selectedBlockIndex+1].isEmpty
     }
 }
