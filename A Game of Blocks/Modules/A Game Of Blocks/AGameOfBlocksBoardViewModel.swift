@@ -27,7 +27,7 @@ final class AGameOfBlocksBoardViewModel: ObservableObject {
     // MARK: - Public funcs
     
     func onBlockSelected(_ index: Int) {
-        guard !state.isFinished else { return }
+        guard !state.isFinished, !state.isLoading else { return }
         guard blocks[index].isEmpty else { return }
         
         state = .loading
@@ -98,9 +98,10 @@ final class AGameOfBlocksBoardViewModel: ObservableObject {
             return false
         }
             
-        return !blocks[index-1].isEmpty && !blocks[index+1].isEmpty
+        return !blocks[index - 1].isEmpty && !blocks[index + 1].isEmpty
     }
     
+    /// This function checks recursively the blocks above a bridge and mark them as `BlockState.underTheBridge`.
     private func bridgeCheck(index: Int) {
         guard let indexBelow = blocks[index].indexBelow else { return }
 
@@ -110,8 +111,10 @@ final class AGameOfBlocksBoardViewModel: ObservableObject {
         bridgeCheck(index: indexBelow)
     }
     
+    /// It iterates over the block array to assign a score to each of them.
+    /// In the end it calculates the total score of the game.
     private func calculateTotalScore() {
-        for index in stride(from: settings.boardSize-1, to: 0, by: -1) {
+        for index in stride(from: settings.boardSize - 1, to: 0, by: -1) {
             if blocks[index].isUnderTheBridge {
                 blocks[index].score = settings.underTheBridgeScore
             } else if blocks[index].isFilled {

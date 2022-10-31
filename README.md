@@ -1,15 +1,10 @@
 # A Game Of Blocks - iOS Application
 
+A Game of Block is a new game designed and developed for iOS iPhone.
+
 ## Requirements
 
-- macOS Catalina 10.15.7
 - Xcode 13 (with Swift 5.3)
 
 - iOS 14 SDK
 - iOS 14 deployment target
-
-## Dev Config
-
-
-## Start
-

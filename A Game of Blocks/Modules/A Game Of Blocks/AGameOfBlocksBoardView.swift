@@ -54,20 +54,20 @@ struct AGameOfBlocksBoardView: View {
             spacing: 0
         ) {
             ForEach(Array(zip(viewModel.blocks.indices, viewModel.blocks)), id: \.0) { index, block in
-                Rectangle()
-                    .frame(width: blockSize, height: blockSize)
-                    .border(Color.lightGray, width: 1)
-                    .foregroundColor(block.color)
-                    .overlay(
+                ZStack {
+                    Rectangle()
+                        .frame(width: blockSize, height: blockSize)
+                        .border(Color.lightGray, width: 1)
+                        .foregroundColor(block.color)
+                    
+                    if viewModel.state.isFinished && block.score > 0 {
                         Text("\(block.score)")
-                            .opacity(block.score > 0 && viewModel.state.isFinished ? 1.0 : 0)
                             .foregroundColor(block.isFilled ? .white : .black)
-                    )
-                    .onTapGesture {
-                        if !viewModel.state.isLoading {
-                            viewModel.onBlockSelected(index)
-                        }
                     }
+                }
+                .onTapGesture {
+                    viewModel.onBlockSelected(index)
+                }
             }
         }
     }

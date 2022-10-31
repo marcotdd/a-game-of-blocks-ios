@@ -10,9 +10,8 @@
 		240D92C72909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240D92C62909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift */; };
 		24728DE4290C8DED0057BFBA /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24728DE3290C8DED0057BFBA /* Block.swift */; };
 		24728DE7290C91590057BFBA /* ViewModelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24728DE6290C91590057BFBA /* ViewModelState.swift */; };
-		24728DE9290C984C0057BFBA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 24728DE8290C984C0057BFBA /* README.md */; };
 		24728DEC290C9CF10057BFBA /* Color + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24728DEB290C9CF10057BFBA /* Color + Ext.swift */; };
-		24CC585D2907F7010069DAF2 /* A_Game_of_BlocksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */; };
+		24CC585D2907F7010069DAF2 /* AGameOfBlocksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC585C2907F7010069DAF2 /* AGameOfBlocksApp.swift */; };
 		24CC585F2907F7010069DAF2 /* AGameOfBlocksBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */; };
 		24CC58612907F7020069DAF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24CC58602907F7020069DAF2 /* Assets.xcassets */; };
 		24E654E6290FD82900985687 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E654E5290FD82900985687 /* Settings.swift */; };
@@ -22,10 +21,9 @@
 		240D92C62909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGameOfBlocksBoardViewModel.swift; sourceTree = "<group>"; };
 		24728DE3290C8DED0057BFBA /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		24728DE6290C91590057BFBA /* ViewModelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelState.swift; sourceTree = "<group>"; };
-		24728DE8290C984C0057BFBA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		24728DEB290C9CF10057BFBA /* Color + Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + Ext.swift"; sourceTree = "<group>"; };
 		24CC58592907F7010069DAF2 /* A Game of Blocks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "A Game of Blocks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A_Game_of_BlocksApp.swift; sourceTree = "<group>"; };
+		24CC585C2907F7010069DAF2 /* AGameOfBlocksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGameOfBlocksApp.swift; sourceTree = "<group>"; };
 		24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGameOfBlocksBoardView.swift; sourceTree = "<group>"; };
 		24CC58602907F7020069DAF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24E654E5290FD82900985687 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -87,8 +85,7 @@
 		24CC585B2907F7010069DAF2 /* A Game of Blocks */ = {
 			isa = PBXGroup;
 			children = (
-				24728DE8290C984C0057BFBA /* README.md */,
-				24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */,
+				24CC585C2907F7010069DAF2 /* AGameOfBlocksApp.swift */,
 				24728DE5290C91470057BFBA /* Common */,
 				240D92C22909B7A3000F8A1E /* Models */,
 				24E654E3290E6D7400985687 /* Modules */,
@@ -173,7 +170,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				24CC58612907F7020069DAF2 /* Assets.xcassets in Resources */,
-				24728DE9290C984C0057BFBA /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,7 +183,7 @@
 				24728DE7290C91590057BFBA /* ViewModelState.swift in Sources */,
 				24728DE4290C8DED0057BFBA /* Block.swift in Sources */,
 				24CC585F2907F7010069DAF2 /* AGameOfBlocksBoardView.swift in Sources */,
-				24CC585D2907F7010069DAF2 /* A_Game_of_BlocksApp.swift in Sources */,
+				24CC585D2907F7010069DAF2 /* AGameOfBlocksApp.swift in Sources */,
 				24E654E6290FD82900985687 /* Settings.swift in Sources */,
 				240D92C72909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift in Sources */,
 				24728DEC290C9CF10057BFBA /* Color + Ext.swift in Sources */,

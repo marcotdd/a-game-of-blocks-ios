@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct A_Game_of_BlocksApp: App {
+struct AGameOfBlocksApp: App {
     var body: some Scene {
         WindowGroup {
             AGameOfBlocksBoardView()
