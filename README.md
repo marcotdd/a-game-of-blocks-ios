@@ -1,6 +1,7 @@
 # A Game Of Blocks - iOS Application
 
-A Game of Block is a new game designed and developed for iOS iPhone.
+A Game of Block is a new game designed and developed for iOS iPhone. 
+It uses SwiftUI and MVVM pattern.
 
 ## Requirements
 
