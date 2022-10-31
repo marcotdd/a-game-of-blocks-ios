@@ -15,6 +15,7 @@
 		24CC585D2907F7010069DAF2 /* A_Game_of_BlocksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */; };
 		24CC585F2907F7010069DAF2 /* AGameOfBlocksBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */; };
 		24CC58612907F7020069DAF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24CC58602907F7020069DAF2 /* Assets.xcassets */; };
+		24E654E6290FD82900985687 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E654E5290FD82900985687 /* Settings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		24CC585C2907F7010069DAF2 /* A_Game_of_BlocksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A_Game_of_BlocksApp.swift; sourceTree = "<group>"; };
 		24CC585E2907F7010069DAF2 /* AGameOfBlocksBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGameOfBlocksBoardView.swift; sourceTree = "<group>"; };
 		24CC58602907F7020069DAF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		24E654E5290FD82900985687 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				24728DE3290C8DED0057BFBA /* Block.swift */,
+				24E654E5290FD82900985687 /* Settings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				24728DE4290C8DED0057BFBA /* Block.swift in Sources */,
 				24CC585F2907F7010069DAF2 /* AGameOfBlocksBoardView.swift in Sources */,
 				24CC585D2907F7010069DAF2 /* A_Game_of_BlocksApp.swift in Sources */,
+				24E654E6290FD82900985687 /* Settings.swift in Sources */,
 				240D92C72909BBCB000F8A1E /* AGameOfBlocksBoardViewModel.swift in Sources */,
 				24728DEC290C9CF10057BFBA /* Color + Ext.swift in Sources */,
 			);

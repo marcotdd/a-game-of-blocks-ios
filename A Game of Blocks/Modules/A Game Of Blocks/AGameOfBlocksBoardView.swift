@@ -14,47 +14,60 @@ struct AGameOfBlocksBoardView: View {
                 
                 GeometryReader { geometryReader in
                     VStack {
-                        LazyVGrid(columns: [GridItem](repeating: GridItem(.flexible(), spacing: 0), count: viewModel.columns), spacing: 0) {
-                            ForEach(Array(zip(viewModel.board.indices, viewModel.board)), id: \.0) { index, block in
-                                let blockSize = geometryReader.size.width / CGFloat(viewModel.columns)
-                                Rectangle()
-                                    .frame(width: blockSize, height: blockSize)
-                                    .border(Color.lightGray, width: 1)
-                                    .foregroundColor(block.color)
-                                    .overlay(Text("\(block.score)"))
-//                                    .overlay(Text("\(index)"))
-                                    .onTapGesture {
-                                        if !viewModel.state.isLoading {
-                                            viewModel.onBlockSelected(index)
-                                        }
-                                    }
-                            }
-                        }
+                        playGrid(blockSize: geometryReader.size.width / CGFloat(viewModel.columnsCount))
                         
                         if viewModel.state.isFinished {
-                            Text("Score: \(viewModel.score)")
+                            Text("Score: \(viewModel.totalScore)")
                                 .font(.title2)
                         }
                         
                         Spacer()
                         
-                        Button {
-                            viewModel.restart()
-                        } label: {
-                            Text("Restart")
-                                .fontWeight(.bold)
-                                .padding(.horizontal, 80)
-                                .padding(.vertical, 16)
-                                .background(Color.lightBlue)
-                                .foregroundColor(.white)
-                                .clipShape(Rectangle())
-                            
-                        }
-                        .padding(.bottom, 32)
+                        restartButton
                     }
                 }
                 .navigationTitle("A Game Of Blocks")
                 .padding(.horizontal, 16)
+            }
+        }
+    }
+    
+    private var restartButton: some View {
+        Button {
+            viewModel.restart()
+        } label: {
+            Text("Restart")
+                .fontWeight(.bold)
+                .padding(.horizontal, 80)
+                .padding(.vertical, 16)
+                .background(Color.lightBlue)
+                .foregroundColor(.white)
+                .clipShape(Rectangle())
+            
+        }
+        .padding(.bottom, 32)
+    }
+    
+    private func playGrid(blockSize: CGFloat) -> some View {
+        LazyVGrid(
+            columns: [GridItem](repeating: GridItem(.flexible(), spacing: 0), count: viewModel.columnsCount),
+            spacing: 0
+        ) {
+            ForEach(Array(zip(viewModel.blocks.indices, viewModel.blocks)), id: \.0) { index, block in
+                Rectangle()
+                    .frame(width: blockSize, height: blockSize)
+                    .border(Color.lightGray, width: 1)
+                    .foregroundColor(block.color)
+                    .overlay(
+                        Text("\(block.score)")
+                            .opacity(block.score > 0 && viewModel.state.isFinished ? 1.0 : 0)
+                            .foregroundColor(block.isFilled ? .white : .black)
+                    )
+                    .onTapGesture {
+                        if !viewModel.state.isLoading {
+                            viewModel.onBlockSelected(index)
+                        }
+                    }
             }
         }
     }

@@ -13,7 +13,7 @@ struct Block {
     
     var isTop: Bool
     var isSide: Bool
-    var isBottom: Bool
+    var indexBelow: Int? = nil
     
     var isEmpty: Bool {
         switch state {
@@ -28,6 +28,16 @@ struct Block {
     var isFilled: Bool {
         switch state {
         case .filled:
+            return true
+            
+        default:
+            return false
+        }
+    }
+    
+    var isUnderTheBridge: Bool {
+        switch state {
+        case .underTheBridge:
             return true
             
         default:

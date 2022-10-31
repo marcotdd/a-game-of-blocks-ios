@@ -1,100 +1,127 @@
 import Foundation
 import SwiftUI
 
-class AGameOfBlocksBoardViewModel: ObservableObject {
-    @Published var board: [Block] = []
+final class AGameOfBlocksBoardViewModel: ObservableObject {
+    
+    // MARK: - Observables & Properties
+    
+    @Published var blocks: [Block] = []
     @Published var state: ViewModelState = .idle
     
-    let boardSize: Int = 25
-    let columns: Int = 5
-
-    var score: Int = 0
+    private let settings = Settings()
     
-    private let numberOfMoves: Int = 10
+    private var isGameOver: Bool {
+        blocks.filter({ $0.isFilled }).count >= settings.numberOfMoves
+    }
+    
+    var boardSize: Int { get { settings.boardSize } }
+    var columnsCount: Int { get { settings.columns } }
+    var totalScore: Int = 0
 
-    private var timer: Timer?
-    private var selectedBlockIndex: Int?
+    // MARK: - Initializer
     
     init() {
         setup()
     }
     
+    // MARK: - Public funcs
+    
     func onBlockSelected(_ index: Int) {
         guard !state.isFinished else { return }
-        guard board[index].isEmpty else { return }
-        board[index].state = .onMoving
-        selectedBlockIndex = index
-        timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true, block: moveBlock)
+        guard blocks[index].isEmpty else { return }
+        
+        state = .loading
+        moveBlock(index: index)
+        
     }
     
     func restart() {
-        timer?.invalidate()
         state = .idle
         setup()
     }
     
+    // MARK: - Private funcs
+    
+    /// It firstly resets the list of Blocks
+    /// and then creates a new array of block which represents the Play Grid
     private func setup() {
-        board = []
+        blocks = []
+        
         for index in 0..<boardSize {
-            let isATopBlock = (0..<columns).contains(index)
-            let isASideBlock = index % columns == 0 || (index + 1) % columns == 0
-            let isABottomBlock = ((boardSize - columns)..<boardSize).contains(index)
-            board.append(Block(isTop: isATopBlock, isSide: isASideBlock, isBottom: isABottomBlock))
+            let block = Block(
+                isTop: (0..<settings.columns).contains(index),
+                isSide: index % settings.columns == 0 || (index + 1) % settings.columns == 0,
+                indexBelow: index + settings.columns < boardSize ? index + settings.columns : nil
+            )
+            
+            blocks.append(block)
         }
     }
     
-    private func moveBlock(timer: Timer) {
-        guard let index = selectedBlockIndex else { return }
+    /// It is the engine of the game.
+    /// This function rules the Block movements and it also handles the end of the game.
+    private func moveBlock(index: Int, indexAbove: Int? = nil) {
         
-        state = .loading
-        
-        let nextIndex = index + columns
-        if index < boardSize - columns && board[nextIndex].isEmpty && !isInBetween(selectedBlockIndex: index) {
-            board[index].state = .empty
-            board[nextIndex].state = .onMoving
-            selectedBlockIndex = nextIndex
+        if let indexAbove = indexAbove {
+            blocks[indexAbove].state = .empty
+        }
+                
+        if let indexBelow = blocks[index].indexBelow, blocks[indexBelow].isEmpty, !isInBetween(index: index) {
+            // The block moves down ⬇️
+            
+            blocks[index].state = .onMoving
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                // This condition stops the execution in case the button Restart has been tapped
+                if self.state.isLoading {
+                    self.moveBlock(index: indexBelow, indexAbove: index)
+                }
+            }
         } else {
-            timer.invalidate()
-            board[index].state = .filled
-            assignScore(for: index)
+            // The block stops ✋
+            
+            blocks[index].state = .filled
+            bridgeCheck(index: index)
 
-            if board.filter({ $0.isFilled }).count < numberOfMoves {
-                state = .idle
-            } else {
+            if isGameOver {
                 state = .finished
-                score = board.map({ $0.score }).reduce(0, +)
+                calculateTotalScore()
+            } else {
+                state = .idle
             }
         }
     }
     
-    private func isInBetween(selectedBlockIndex: Int) -> Bool {
-        let block = board[selectedBlockIndex]
-        
-        if block.isSide {
+    /// It returns true if the current index Block is between two Blocks.
+    private func isInBetween(index: Int) -> Bool {
+        if blocks[index].isSide {
             return false
         }
             
-        return !board[selectedBlockIndex-1].isEmpty && !board[selectedBlockIndex+1].isEmpty
+        return !blocks[index-1].isEmpty && !blocks[index+1].isEmpty
     }
     
-    private func assignScore(for index: Int) {
-        if board[index].isBottom {
-            board[index].score = 5
-        } else if board[index + columns].isEmpty {
-            board[index].score = 5
-        } else {
-            board[index].score = 5 + board[index + columns].score
-        }
-        assignScoreOnBlankBlocksBelow(index: index)
-    }
-    
-    private func assignScoreOnBlankBlocksBelow(index: Int) {
-        guard !board[index].isBottom else { return }
-        let nextIndex = index + columns
-        guard board[nextIndex].isEmpty else { return }
+    private func bridgeCheck(index: Int) {
+        guard let indexBelow = blocks[index].indexBelow else { return }
+
+        guard blocks[indexBelow].isEmpty else { return }
         
-        board[nextIndex].score = 10
-        board[nextIndex].state = .underTheBridge
-        assignScoreOnBlankBlocksBelow(index: nextIndex)
+        blocks[indexBelow].state = .underTheBridge
+        bridgeCheck(index: indexBelow)
+    }
+    
+    private func calculateTotalScore() {
+        for index in stride(from: settings.boardSize-1, to: 0, by: -1) {
+            if blocks[index].isUnderTheBridge {
+                blocks[index].score = settings.underTheBridgeScore
+            } else if blocks[index].isFilled {
+                if let indexBelow = blocks[index].indexBelow, blocks[indexBelow].isFilled {
+                    blocks[index].score = blocks[indexBelow].score + settings.regularBlockScore
+                } else {
+                    blocks[index].score = settings.regularBlockScore
+                }
+            }
+        }
+        totalScore = blocks.map({ $0.score }).reduce(0, +)
     }
 }
